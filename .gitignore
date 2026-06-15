@@ -1,0 +1,16 @@
+# Python
+backend/venv/
+__pycache__/
+*.pyc
+
+# Environment
+backend/.env
+
+# Cloned repositories
+backend/repositories/
+
+# Node
+frontend/node_modules/
+
+# OS files
+.DS_Store
