@@ -1,95 +1,76 @@
 from dotenv import load_dotenv
+import os
+from groq import Groq
+
 load_dotenv()
 
-from groq import Groq
-import os
+client = Groq(api_key=os.getenv("GROQ_API_KEY"))
 
-
-client = Groq(
-    api_key=os.getenv("GROQ_API_KEY")
-)
-
-
-def generate_ai_summary(readme_content):
+def generate_ai_summary(repository_context):
+    """
+    Production-grade summary generator that intelligently formats 
+    complex repository contexts (lists, dicts, or strings).
+    """
+    
+    context_str = str(repository_context) # Default
+    
+    if isinstance(repository_context, dict):
+        formatted_parts = []
+        for k, v in repository_context.items():
+            # Agar list hai, toh use clean multi-line string mein convert karein
+            if isinstance(v, list):
+                val_str = "\n".join(map(str, v))
+            else:
+                val_str = str(v)
+            
+            formatted_parts.append(f"=== {k.upper()} ===\n{val_str}")
+        
+        context_str = "\n\n".join(formatted_parts)
 
     prompt = f"""
-You are a Principal Software Engineer, Software Architect,
-and Developer Onboarding Expert.
+You are a Principal Software Engineer and Developer Onboarding Expert.
+Analyze the repository context provided below and generate a professional Developer Onboarding Report.
 
-Your goal is to help a new developer understand a GitHub repository
-as quickly as possible.
-
-Analyze the repository README and generate a professional
-Developer Onboarding Report.
-
-Return the response in EXACTLY this format:
+IMPORTANT RULES:
+- Use ONLY the provided repository context.
+- If information is missing, write "Not identified from repository context."
+- Return the response in the specified format.
 
 # PROJECT OVERVIEW
-Explain:
-- What problem this project solves
-- Why it exists
-- Who would use it
+- What problem it solves, why it exists, who uses it.
 
 # TECH STACK
-- Main languages
-- Frameworks
-- Libraries
-- Tools
+- Languages, Frameworks, Libraries, Tools.
 
 # CORE FEATURES
-- Feature 1
-- Feature 2
-- Feature 3
-- Feature 4
-- Feature 5
+- Bulleted list of key features.
 
 # HOW IT WORKS
-Explain the workflow in simple steps.
+- Simple workflow steps.
 
 # REPOSITORY STRUCTURE INSIGHTS
-Mention important files, folders, modules, or components if identifiable.
+- Important files/folders.
 
 # DEVELOPER ONBOARDING GUIDE
-For a new developer:
-
-1. Where should they start?
-2. Which files are likely most important?
-3. What concepts should they understand first?
+- Where to start, important files, concepts to learn.
 
 # POTENTIAL USE CASES
-List real-world use cases.
 
 # COMPLEXITY ASSESSMENT
+- Level (Beginner/Intermediate/Advanced) and Reason.
 
-Difficulty Level:
-(Beginner / Intermediate / Advanced)
-
-Reason:
-Explain why.
-
-Additional Rules:
-- Use concise and professional language.
-- Think like a senior engineer onboarding a new team member.
-- Never mention "based on the README".
-- Never mention that information was provided by the user.
-- Use bullet points whenever possible.
-- If some information is missing, infer carefully from available details.
-- Keep the report practical and useful.
-
-README CONTENT:
-
-{readme_content}
+---
+REPOSITORY CONTEXT:
+{context_str}
 """
 
-    response = client.chat.completions.create(
-        model="llama-3.3-70b-versatile",
-        messages=[
-            {
-                "role": "user",
-                "content": prompt
-            }
-        ],
-        temperature=0.2
-    )
-
-    return response.choices[0].message.content
+    try:
+        response = client.chat.completions.create(
+            model="llama-3.3-70b-versatile",
+            messages=[{"role": "user", "content": prompt}],
+            temperature=0.2
+        )
+        return response.choices[0].message.content
+    except Exception as e:
+        print(f"Error generating AI summary: {e}")
+        return "Summary could not be generated due to an internal error."

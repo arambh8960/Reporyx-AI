@@ -11,19 +11,25 @@ from services.repository_service import (
 
 from services.repository_db_service import (
     save_repository_analysis,
-    get_repository_by_url
+    delete_repository_by_url
 )
+
 from services.code_storage_service import (
     save_code_files
 )
+
 from services.vector_storage_service import (
-    save_embeddings
+    save_embeddings,
+    delete_repo_vectors
 )
 
 router = APIRouter(
     prefix="/api/repository",
     tags=["Repository"]
 )
+
+# DEVELOPMENT MODE
+FORCE_REANALYZE = True
 
 
 @router.post(
@@ -35,43 +41,50 @@ async def analyze_repository(
 ):
 
     if not repository.repo_url.strip():
+
         raise HTTPException(
             status_code=400,
             detail="Repository URL is required"
         )
 
-    print("REPO URL =", repository.repo_url)
-
-    # Check if already analyzed
-    existing_repo = await get_repository_by_url(
-        repository.repo_url
-    )
-
-    if existing_repo:
-
-        print("LOADED FROM DATABASE")
-
-        return {
-            "status": "success",
-            "repo_name": existing_repo["repo_name"],
-            "file_count": existing_repo["file_count"],
-            "folder_count": existing_repo["folder_count"],
-            "technologies": existing_repo["technologies"],
-            "tree": existing_repo["tree"],
-            "summary": existing_repo["summary"],
-            "message": "Repository loaded from database"
-        }
-
-    # Analyze repository
-    result = clone_repository(
-        repository.repo_url
-    )
     print(
-    "TOTAL CODE FILES =",
-    len(result["code_files"])
-)
+        "REPO URL =",
+        repository.repo_url
+    )
 
-    # Save to MongoDB
+    # ==========================
+    # DEVELOPMENT MODE
+    # ==========================
+
+    if FORCE_REANALYZE:
+
+        deleted = await delete_repository_by_url(
+            repository.repo_url
+        )
+
+        print(
+            f"DELETED OLD RECORDS = {deleted}"
+        )
+
+    # ==========================
+    # FRESH ANALYSIS
+    # ==========================
+
+    result = await clone_repository(
+        repository.repo_url
+    )
+
+    print(
+        "TOTAL CODE FILES =",
+        len(
+            result["code_files"]
+        )
+    )
+
+    # ==========================
+    # SAVE ANALYSIS
+    # ==========================
+
     await save_repository_analysis(
         {
             "repo_url": repository.repo_url,
@@ -83,16 +96,15 @@ async def analyze_repository(
             "summary": result["summary"]
         }
     )
-    await save_code_files(
-    result["repo_name"],
-    result["code_files"]
-)
-    save_embeddings(
-    result["repo_name"],
-    result["code_files"]
-)
 
-    print("SAVED TO DATABASE")
+    await save_code_files(
+        result["repo_name"],
+        result["code_files"]
+    )
+
+    print(
+        "SAVED TO DATABASE"
+    )
 
     return {
         "status": "success",
@@ -104,4 +116,3 @@ async def analyze_repository(
         "summary": result["summary"],
         "message": "Repository analyzed successfully"
     }
-   

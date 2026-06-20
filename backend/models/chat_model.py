@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from typing import List
 
 
@@ -10,7 +10,7 @@ class ChatMessage(BaseModel):
 class ChatRequest(BaseModel):
     question: str
     repo_name: str
-    history: List[ChatMessage] = []
+    history: List[ChatMessage] = Field(default_factory=list)
 
 
 class ChatResponse(BaseModel):

@@ -1,58 +1,113 @@
-import os
-import ast
+import re
 
 
-def build_dependency_graph(repo_path):
+IMPORT_PATTERNS = {
+    ".py": [
+        r"import\s+([\w\.]+)",
+        r"from\s+([\w\.]+)\s+import"
+    ],
 
-    graph = {}
+    ".js": [
+        r'import\s+.*?\s+from\s+[\'"](.+?)[\'"]',
+        r'require\([\'"](.+?)[\'"]\)'
+    ],
 
-    for root, _, files in os.walk(repo_path):
+    ".jsx": [
+        r'import\s+.*?\s+from\s+[\'"](.+?)[\'"]',
+        r'require\([\'"](.+?)[\'"]\)'
+    ],
 
-        for file in files:
+    ".ts": [
+        r'import\s+.*?\s+from\s+[\'"](.+?)[\'"]'
+    ],
 
-            if not file.endswith(".py"):
-                continue
+    ".tsx": [
+        r'import\s+.*?\s+from\s+[\'"](.+?)[\'"]'
+    ],
 
-            file_path = os.path.join(
-                root,
-                file
+    ".java": [
+        r'import\s+([\w\.]+);'
+    ],
+
+    ".go": [
+        r'import\s+"([^"]+)"'
+    ],
+
+    ".rs": [
+        r'use\s+([\w:]+)'
+    ],
+
+    ".php": [
+        r'use\s+([\w\\]+);'
+    ],
+
+    ".cs": [
+        r'using\s+([\w\.]+);'
+    ]
+}
+
+
+def extract_imports(content, extension):
+
+    imports = set()
+
+    patterns = IMPORT_PATTERNS.get(
+        extension,
+        []
+    )
+
+    for pattern in patterns:
+
+        matches = re.findall(
+            pattern,
+            content,
+            re.MULTILINE
+        )
+
+        for match in matches:
+
+            if isinstance(match, tuple):
+                match = match[0]
+
+            imports.add(match)
+
+    return list(imports)
+
+
+def build_dependency_graph(code_files):
+
+    nodes = []
+    edges = []
+
+    for file in code_files:
+
+        file_path = file["file_path"]
+
+        extension = file.get(
+            "extension",
+            ""
+        )
+
+        content = file["content"]
+
+        nodes.append(file_path)
+
+        imports = extract_imports(
+            content,
+            extension
+        )
+
+        for imported in imports:
+
+            edges.append(
+                {
+                    "source": file_path,
+                    "target": imported,
+                    "type": "import"
+                }
             )
 
-            try:
-
-                with open(
-                    file_path,
-                    "r",
-                    encoding="utf-8"
-                ) as f:
-
-                    tree = ast.parse(
-                        f.read()
-                    )
-
-                imports = []
-
-                for node in ast.walk(tree):
-
-                    if isinstance(
-                        node,
-                        ast.ImportFrom
-                    ):
-
-                        if node.module:
-
-                            imports.append(
-                                node.module
-                            )
-
-                graph[
-                    os.path.relpath(
-                        file_path,
-                        repo_path
-                    )
-                ] = imports
-
-            except Exception:
-                pass
-
-    return graph
+    return {
+        "nodes": nodes,
+        "edges": edges
+    }

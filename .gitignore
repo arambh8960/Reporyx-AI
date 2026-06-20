@@ -18,3 +18,5 @@ frontend/node_modules/
 backend/data/repositories/
 data/repositories/
 test-repo/
+# Chroma Vector Database
+backend/chroma_db/

@@ -5,8 +5,39 @@ ALLOWED_EXTENSIONS = (
     ".js",
     ".jsx",
     ".ts",
-    ".tsx"
+    ".tsx",
+    ".java",
+    ".go",
+    ".rs",
+    ".php",
+    ".cs",
+    ".cpp",
+    ".cc",
+    ".cxx",
+    ".c",
+    ".h",
+    ".hpp",
+    ".kt",
+    ".swift",
+    ".dart"
 )
+
+IGNORE_DIRS = {
+    ".git",
+    "node_modules",
+    "__pycache__",
+    "dist",
+    "build",
+    ".next",
+    ".nuxt",
+    "coverage",
+    "target",
+    "bin",
+    "obj",
+    "vendor",
+    ".idea",
+    ".vscode"
+}
 
 
 def extract_code_files(repo_path):
@@ -17,42 +48,57 @@ def extract_code_files(repo_path):
 
         dirs[:] = [
             d for d in dirs
-            if d != ".git"
+            if d not in IGNORE_DIRS
         ]
 
         for file in files:
 
-            if file.endswith(
-                ALLOWED_EXTENSIONS
-            ):
+            if not file.endswith(ALLOWED_EXTENSIONS):
+                continue
 
-                full_path = os.path.join(
-                    root,
-                    file
+            full_path = os.path.join(
+                root,
+                file
+            )
+
+            try:
+
+                with open(
+                    full_path,
+                    "r",
+                    encoding="utf-8",
+                    errors="ignore"
+                ) as f:
+
+                    content = f.read()
+
+                # Skip empty files
+                if not content.strip():
+                    continue
+
+                code_files.append(
+                    {
+                        "file_path": os.path.relpath(
+                            full_path,
+                            repo_path
+                        ),
+                        "content": content,
+                        "extension": os.path.splitext(file)[1]
+                    }
                 )
 
-                try:
+            except Exception as e:
 
-                    with open(
-                        full_path,
-                        "r",
-                        encoding="utf-8",
-                        errors="ignore"
-                    ) as f:
+                print(
+                    f"ERROR READING FILE: {full_path}"
+                )
 
-                        content = f.read()
+                print(str(e))
 
-                    code_files.append(
-                        {
-                            "file_path": os.path.relpath(
-                                full_path,
-                                repo_path
-                            ),
-                            "content": content
-                        }
-                    )
+                continue
 
-                except Exception:
-                    pass
+    print(
+        f"TOTAL CODE FILES FOUND: {len(code_files)}"
+    )
 
     return code_files
