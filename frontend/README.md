@@ -1,4 +1,4 @@
-# Reporyx AI - Frontend
+# Reporyx-AI - Frontend
 
 AI-Powered Developer Onboarding Assistant for GitHub Repositories
 
@@ -24,7 +24,7 @@ cp .env.example .env
 ```
 
 Edit `.env` with your configuration:
-- `VITE_API_URL` - Backend API URL (default: http://localhost:8000)
+- `VITE_API_BASE_URL` - Backend API URL (default: http://localhost:8000)
 
 ## Running the Frontend
 
@@ -133,7 +133,7 @@ The frontend uses Axios for API communication with the following features:
 
 ## Environment Variables
 
-- `VITE_API_URL`: Backend API URL (default: http://localhost:8000)
+- `VITE_API_BASE_URL`: Backend API URL (default: http://localhost:8000)
 
 ## Development
 

@@ -29,7 +29,7 @@ const Sidebar = () => {
                 <div className={`w-10 h-10 bg-gradient-to-br from-purple-600 to-blue-500 rounded-md flex items-center justify-center text-white font-bold`}>RP</div>
                 {!collapsed && (
                   <div>
-                    <h3 className="text-lg font-semibold">Reporyx AI</h3>
+                    <h3 className="text-lg font-semibold">Reporyx-AI</h3>
                     <p className="text-xs text-white/60">Repository Intelligence Platform</p>
                   </div>
                 )}
@@ -89,7 +89,7 @@ const Sidebar = () => {
               <Link to="/" className="flex items-center space-x-3">
                   <div className="w-10 h-10 bg-gradient-to-br from-purple-600 to-blue-500 rounded-md flex items-center justify-center text-white font-bold">RP</div>
                   <div>
-                    <h3 className="text-lg font-semibold">Reporyx AI</h3>
+                    <h3 className="text-lg font-semibold">Reporyx-AI</h3>
                   </div>
               </Link>
               <button onClick={closeMobile} className="p-2 text-white/70">Close</button>

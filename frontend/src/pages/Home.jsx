@@ -22,7 +22,7 @@ const Home = () => {
           <div className="text-white">
             <h1 className="text-4xl md:text-5xl font-extrabold mb-4">Understand Any GitHub Repository in Minutes</h1>
             <p className="text-lg text-white/80 mb-6 max-w-2xl">
-              Reporyx AI analyzes repository architecture, code structure, dependencies, execution flow, and implementation details to help developers onboard faster.
+              Reporyx-AI analyzes repository architecture, code structure, dependencies, execution flow, and implementation details to help developers onboard faster.
             </p>
             <div className="flex items-center gap-4">
               <button onClick={handleGetStarted} className="btn-primary px-6 py-3 text-lg">Get Started</button>
@@ -80,7 +80,7 @@ const Home = () => {
           <div className="flex flex-col md:flex-row md:items-center gap-4 text-white/80">
             <div className="flex-1">
               <div className="mb-3"><strong>1.</strong> Paste GitHub Repository URL</div>
-              <div className="mb-3"><strong>2.</strong> Reporyx AI Analyzes Codebase</div>
+              <div className="mb-3"><strong>2.</strong> Reporyx-AI Analyzes Codebase</div>
               <div className="mb-3"><strong>3.</strong> Explore Architecture & Structure</div>
               <div className="mb-3"><strong>4.</strong> Chat With Your Repository</div>
             </div>

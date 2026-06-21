@@ -1,10 +1,10 @@
-# Reporyx AI
+# Reporyx-AI
 
 AI-Powered Developer Onboarding Assistant for GitHub Repositories
 
 ## Overview
 
-Reporyx AI is an intelligent developer onboarding assistant that helps you understand any GitHub repository quickly and efficiently. Whether you're joining a new team, exploring open-source projects, or analyzing codebases, Reporyx AI provides AI-powered insights to accelerate your understanding.
+Reporyx-AI is an intelligent developer onboarding assistant that helps you understand any GitHub repository quickly and efficiently. Whether you're joining a new team, exploring open-source projects, or analyzing codebases, Reporyx-AI provides AI-powered insights to accelerate your understanding.
 
 ## Tech Stack
 
@@ -152,7 +152,7 @@ cp .env.example .env
 
 Edit `.env` with your configuration:
 ```env
-VITE_API_URL=http://localhost:8000
+VITE_API_BASE_URL=http://localhost:8000
 ```
 
 ## Running the Application
@@ -242,7 +242,7 @@ The frontend application will be available at: `http://localhost:3000`
 - `JWT_EXPIRE_MINUTES` - JWT token expiration time in minutes
 
 ### Frontend
-- `VITE_API_URL` - Backend API URL (default: http://localhost:8000)
+- `VITE_API_BASE_URL` - Backend API URL (default: http://localhost:8000)
 
 ## Development
 

@@ -22,3 +22,10 @@ test-repo/
 backend/chroma_db/
 
 frontend/dist/
+
+# Environment Files
+backend/.env
+frontend/.env
+frontend/.env.local
+frontend/.env.production
+frontend/.env.development

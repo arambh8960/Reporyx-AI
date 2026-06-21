@@ -2,7 +2,7 @@ import re
 
 def create_chunks(content: str, chunk_size: int = 150, overlap: int = 50) -> list[dict]:
     """
-    Advanced Syntax-Aware Chunker v3.5 for CodeGraph AI.
+    Advanced Syntax-Aware Chunker v3.5 for Reporyx-AI.
     Optimizations:
     - Language-agnostic context tracking (Supports functions as parent contexts).
     - Deduplication Filter: Context injection is completely skipped for the 1st chunk (Index 0)

@@ -26,7 +26,7 @@ const Navbar = () => {
         <div className="flex items-center space-x-2 group">
           <FaCode className="text-2xl text-blue-400 group-hover:text-purple-400 transition-colors" />
           <div>
-            <div className="text-2xl font-bold gradient-text">Reporyx AI</div>
+            <div className="text-2xl font-bold gradient-text">Reporyx-AI</div>
             <div className="text-xs text-white/60">Repository Intelligence Platform</div>
           </div>
         </div>

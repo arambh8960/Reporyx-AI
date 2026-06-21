@@ -1,8 +1,20 @@
 
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import API_BASE_URL from '../config/api'
 import ReactMarkdown from "react-markdown";
 import { useRepository } from '../context/RepositoryContext'
+
+// Small helper to render code/file references more clearly inside markdown
+const MarkdownComponents = {
+  code({ node, inline, className, children, ...props }) {
+    return (
+      <code className={`bg-white/5 px-1 py-0.5 rounded font-mono text-sm ${inline ? '' : 'block p-2 my-2'}`} {...props}>
+        {children}
+      </code>
+    )
+  }
+}
 
 const RepositoryChat = ({ repoName, persistedMessages = [] }) => {
 
@@ -13,62 +25,80 @@ const RepositoryChat = ({ repoName, persistedMessages = [] }) => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    // sync when activeRepo updates (e.g., imported from storage)
-    if (activeRepo && activeRepo.chatMessages) {
+    // Initialize messages from context/persisted only if local state is empty.
+    // This prevents overwriting local conversation while user interacts.
+    if (activeRepo && Array.isArray(activeRepo.chatMessages) && messages.length === 0) {
       setMessages(activeRepo.chatMessages)
     }
-  }, [activeRepo])
+  }, [activeRepo, messages.length])
 
   const askQuestion = async () => {
+    if (!question.trim() || loading) return
 
-    if (!question.trim() || loading) {
-      return;
-    }
+    const userQuestion = question.trim()
 
-    const userQuestion = question;
+    const userMsg = { role: 'user', content: userQuestion }
 
-    const userMsg = { role: "user", content: userQuestion }
-    setMessages(prev => [...prev, userMsg]);
+    // Persist the user message immediately to context (storage)
     addChatMessage(userMsg)
 
-    setQuestion("");
-    setLoading(true);
+    // Locally show user message and a loading assistant placeholder
+    const loadingAssistant = { role: 'assistant', content: 'Reporyx-AI is thinking...', loading: true }
+    setMessages(prev => [...prev, userMsg, loadingAssistant])
+
+    setQuestion('')
+    setLoading(true)
 
     try {
+      // send last few messages as history (exclude our local loading placeholder)
+      const historyToSend = messages.slice(-6).concat(userMsg).slice(-6)
 
       const response = await axios.post(
-        "http://localhost:8000/api/chat/ask",
+        `${API_BASE_URL}/chat/ask`,
         {
           question: userQuestion,
           repo_name: repoName,
-          history: messages.slice(-6)
+          history: historyToSend
         }
-      );
+      )
 
-      const assistantMsg = { role: "assistant", content: response.data.answer, sources: response.data.sources || [] }
-      setMessages(prev => [...prev, assistantMsg]);
+      const assistantMsg = { role: 'assistant', content: response.data.answer, sources: response.data.sources || [] }
+
+      // Replace the loading assistant placeholder with the real assistant message
+      setMessages(prev => {
+        const idx = prev.findIndex(m => m.loading)
+        if (idx !== -1) {
+          const copy = [...prev]
+          copy.splice(idx, 1, assistantMsg)
+          return copy
+        }
+        return [...prev, assistantMsg]
+      })
+
+      // Persist assistant message
       addChatMessage(assistantMsg)
-
     } catch (error) {
+      const errMsg = { role: 'assistant', content: '❌ Error generating answer. Please try again.' }
 
-      const errMsg = { role: "assistant", content: "❌ Error generating answer. Please try again." }
-      setMessages(prev => [...prev, errMsg]);
+      setMessages(prev => {
+        const idx = prev.findIndex(m => m.loading)
+        if (idx !== -1) {
+          const copy = [...prev]
+          copy.splice(idx, 1, errMsg)
+          return copy
+        }
+        return [...prev, errMsg]
+      })
+
       addChatMessage(errMsg)
-
     } finally {
-
-      setLoading(false);
-
+      setLoading(false)
     }
-  };
+  }
 
   const handleKeyDown = (e) => {
-
-    if (e.key === "Enter") {
-      askQuestion();
-    }
-
-  };
+    if (e.key === 'Enter') askQuestion()
+  }
 
   return (
     <div className="glass-card p-6 mt-6">
@@ -96,70 +126,46 @@ const RepositoryChat = ({ repoName, persistedMessages = [] }) => {
           : "Ask"}
       </button>
 
-      <div className="mt-6 space-y-4">
-
-        {messages.map((message, index) => (
-
-          <div
-            key={index}
-            className={`p-4 rounded-lg ${
-              message.role === "user"
-                ? "bg-blue-600 text-white"
-                : "bg-gray-800 text-white"
-            }`}
-          >
-
-            <strong>
-              {message.role === "user" ? "You" : "Reporyx AI"}:
-            </strong>
-
-            {message.role === "user" ? (
-
-              <p className="mt-2 whitespace-pre-wrap">
-                {message.content}
-              </p>
-
-            ) : (
-
-              <div className="mt-3 prose prose-invert max-w-none">
-
-                <ReactMarkdown>
-                  {message.content}
-                </ReactMarkdown>
-
+      <div className="mt-6 flex flex-col gap-4 overflow-x-hidden">
+        {messages.map((message, index) => {
+          if (message.role === 'user') {
+            return (
+              <div key={index} className="flex justify-end">
+                <div
+                  className="max-w-[85%] p-3 rounded-lg text-white bg-gradient-to-r from-blue-600 to-purple-600 shadow-sm"
+                  style={{ wordBreak: 'break-word', overflowWrap: 'break-word', whiteSpace: 'pre-wrap' }}
+                >
+                  <div className="text-xs text-white/80 font-medium">You</div>
+                  <div className="mt-1 whitespace-pre-wrap break-words">{message.content}</div>
+                </div>
               </div>
+            )
+          }
 
-            )}
+          // assistant or loading
+          return (
+            <div key={index} className="flex justify-start">
+              <div
+                className="max-w-[85%] bg-[#0b1220] border border-[#1f2937] p-4 rounded-lg text-white shadow-sm"
+                style={{ wordBreak: 'break-word', overflowWrap: 'break-word', whiteSpace: 'pre-wrap' }}
+              >
+                <div className="text-xs text-white/80 font-medium">Reporyx-AI</div>
+                <div className="mt-2 prose prose-invert max-w-none break-words whitespace-pre-wrap">
+                  <ReactMarkdown components={MarkdownComponents}>{message.content}</ReactMarkdown>
+                </div>
 
-            {message.role === "assistant" &&
-              message.sources &&
-              message.sources.length > 0 && (
-
-              <div className="mt-4 border-t border-white/10 pt-3">
-
-                <p className="text-xs text-gray-400 mb-2">
-                  Sources
-                </p>
-
-                {message.sources.map(
-                  (source, idx) => (
-                    <div
-                      key={idx}
-                      className="text-sm text-blue-300"
-                    >
-                      📄 {source}
-                    </div>
-                  )
+                {message.role === 'assistant' && message.sources && message.sources.length > 0 && (
+                  <div className="mt-4 border-t border-white/10 pt-3">
+                    <p className="text-xs text-gray-400 mb-2">Sources</p>
+                    {message.sources.map((source, idx) => (
+                      <div key={idx} className="text-sm text-blue-300">📄 {source}</div>
+                    ))}
+                  </div>
                 )}
-
               </div>
-
-            )}
-
-          </div>
-
-        ))}
-
+            </div>
+          )
+        })}
       </div>
 
     </div>
