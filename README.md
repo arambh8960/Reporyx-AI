@@ -4,39 +4,49 @@
 
 ### AI-Powered Developer Onboarding Assistant for GitHub Repositories
 
-[![FastAPI](https://img.shields.io/badge/Backend-FastAPI-009688?style=for-the-badge)]()
-[![React](https://img.shields.io/badge/Frontend-React-61DAFB?style=for-the-badge)]()
-[![MongoDB](https://img.shields.io/badge/Database-MongoDB-10b981?style=for-the-badge)]()
-[![ChromaDB](https://img.shields.io/badge/Vector%20DB-ChromaDB-f59e0b?style=for-the-badge)]()
-[![Groq AI](https://img.shields.io/badge/AI-Groq%20%2B%20Llama-6366f1?style=for-the-badge)]()
-[![License](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge)](LICENSE)
+![React](https://img.shields.io/badge/Frontend-React-61DAFB?style=for-the-badge&logo=react)
+![FastAPI](https://img.shields.io/badge/Backend-FastAPI-009688?style=for-the-badge&logo=fastapi)
+![MongoDB](https://img.shields.io/badge/Database-MongoDB-10b981?style=for-the-badge&logo=mongodb)
+![ChromaDB](https://img.shields.io/badge/Vector%20Database-ChromaDB-f59e0b?style=for-the-badge)
+![Groq](https://img.shields.io/badge/AI-Groq%20%2B%20Llama-6366f1?style=for-the-badge)
+![License](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge)
 
-**Reporyx-AI** is an AI-powered developer onboarding platform that helps developers understand any GitHub repository instantly using Retrieval-Augmented Generation (RAG), semantic code search, architecture analysis, dependency tracing, and intelligent repository Q&A.
+**Reporyx-AI** is an AI-powered developer onboarding platform that helps developers understand any GitHub repository faster using **Retrieval-Augmented Generation (RAG)**, **semantic code search**, and **repository-aware AI conversations**.
 
-Instead of manually reading hundreds of files, developers can simply provide a GitHub repository URL and ask questions in natural language.
+Instead of manually exploring hundreds of files, developers can simply paste a GitHub repository URL and start asking questions about the codebase in natural language.
 
-[⚙️ Features](#-features)  ·  [🛠️ Installation](#️-installation)  ·  [🏗️ Architecture](#️-system-architecture)  ·  [📂 Project Structure](#-project-structure)
+**Built for developers, students, open-source contributors, and engineering teams.**
 
 </div>
 
 ---
 
-# ✨ What Makes Reporyx-AI Different?
+# ✨ Why Reporyx-AI?
 
-Most AI code assistants answer questions from a few retrieved files.
+Understanding a new codebase is one of the biggest challenges for developers.
 
-Reporyx-AI goes beyond simple repository chat by understanding the repository structure, tracing execution flow, identifying entry points, analyzing dependencies, and generating onboarding guidance for developers.
+Whether you're:
 
-Ask questions like:
+- Joining a new company
+- Contributing to open source
+- Working on a team project
+- Exploring an unfamiliar GitHub repository
 
-* "What is the architecture of this repository?"
-* "Where does authentication start?"
-* "Explain the login flow step by step."
-* "Which files are responsible for API routing?"
-* "What is the entry point of this project?"
-* "Generate an onboarding plan for new developers."
+You often spend hours reading documentation, searching files, and tracing code manually.
 
-And receive repository-aware answers backed by actual source code.
+Reporyx-AI reduces that effort by converting an entire repository into an AI-searchable knowledge base.
+
+Simply provide a GitHub repository URL and ask:
+
+> "How does authentication work?"
+
+> "What technologies are used?"
+
+> "Explain this repository to a new developer."
+
+> "Where is the API logic implemented?"
+
+And receive answers grounded in the actual source code.
 
 ---
 
@@ -44,71 +54,67 @@ And receive repository-aware answers backed by actual source code.
 
 ## 📂 Repository Analysis
 
-* Analyze any public GitHub repository
-* Automatic repository cloning
-* Technology stack detection
-* Repository structure analysis
-* README extraction
-* AI-generated repository summary
-* File and folder statistics
+- Clone and analyze any public GitHub repository
+- Detect technologies and frameworks automatically
+- Generate repository structure overview
+- Extract README information
+- Generate AI-powered repository summaries
+- Analyze files and folders
 
-## 🧠 AI-Powered Repository Understanding
+---
 
-* Natural language repository Q&A
-* Semantic code search
-* Multi-file retrieval
-* Source-aware responses
-* Intelligent code explanations
-* Context-aware code understanding
+## 🧠 AI Repository Assistant
 
-## 🔍 RAG Pipeline
+- Ask questions about any repository
+- Natural language codebase interaction
+- Repository-aware conversations
+- Context-aware responses
+- Source-grounded answers
 
-* Automatic code chunking
-* Embedding generation
-* ChromaDB vector storage
-* Semantic similarity search
-* Repository-specific retrieval
-* Context aggregation
+---
 
-## 🏗️ Architecture Analysis
+## 🔍 Semantic Code Search
 
-* Project structure understanding
-* Folder hierarchy analysis
-* Architecture overview generation
-* Layer detection
-* Repository navigation support
+- Intelligent code retrieval
+- Multi-file context understanding
+- Similarity-based search
+- Relevant code chunk retrieval
+- Better than traditional keyword search
 
-## 🔗 Dependency & Flow Analysis
+---
 
-* Dependency graph generation
-* Import relationship mapping
-* Entry point detection
-* Request flow tracing
-* Function call tracing
-* Component interaction understanding
+## ⚡ RAG Pipeline
+
+- Source code chunking
+- Embedding generation
+- ChromaDB vector storage
+- Semantic retrieval
+- Context aggregation
+- LLM-powered response generation
+
+---
 
 ## 🎯 Developer Onboarding
 
-* Smart onboarding guidance
-* Repository walkthrough
-* Key file identification
-* Learning path generation
-* Faster developer ramp-up
+- Understand repositories faster
+- Identify important project components
+- Learn architecture quickly
+- Reduce onboarding time
+- Improve developer productivity
 
 ---
 
 # 🛠️ Tech Stack
 
-| Layer                 | Technology                          |
-| --------------------- | ----------------------------------- |
-| Frontend              | React.js, Vite, Tailwind CSS, Axios |
-| Backend               | FastAPI, Python                     |
-| Database              | MongoDB Atlas                       |
-| Vector Database       | ChromaDB                            |
-| LLM                   | Groq API (Llama 3.3 70B)            |
-| Embeddings            | Sentence Transformers               |
-| Repository Processing | GitPython                           |
-| Graph Analysis        | NetworkX                            |
+| Layer | Technology |
+|---------|-------------|
+| Frontend | React.js, Vite, Tailwind CSS, Axios |
+| Backend | FastAPI, Python |
+| Database | MongoDB Atlas |
+| Vector Database | ChromaDB |
+| AI Model | Groq API (Llama 3.3 70B) |
+| Embeddings | Sentence Transformers |
+| Repository Processing | GitPython |
 
 ---
 
@@ -129,12 +135,7 @@ FastAPI Backend
  ├── Embedding Service
  ├── ChromaDB Vector Store
  ├── Retrieval Engine
- ├── Architecture Analyzer
- ├── Dependency Graph Builder
- └── Flow Tracing Engine
-          │
-          ▼
-      Groq LLM
+ └── Groq LLM
           │
           ▼
      AI Response
@@ -154,7 +155,6 @@ Reporyx-AI
 │   ├── services
 │   ├── repositories
 │   ├── chroma_db
-│   ├── utils
 │   └── main.py
 │
 ├── frontend
@@ -173,15 +173,17 @@ Reporyx-AI
 
 # ⚙️ Installation
 
-```bash
-git clone https://github.com/arambh8960/Reporyx-AI.git
+Clone the repository:
 
-cd Reporyx-AI
+```bash
+git clone https://github.com/arambh8960/CodeGraph-AI.git
+
+cd CodeGraph-AI
 ```
 
 ---
 
-## Backend Setup
+# 🔧 Backend Setup
 
 ```bash
 cd backend
@@ -193,7 +195,7 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-Create a `.env` file inside the backend folder:
+Create a `.env` file:
 
 ```env
 MONGODB_URL=your_mongodb_url
@@ -207,7 +209,9 @@ JWT_ALGORITHM=HS256
 JWT_EXPIRE_MINUTES=60
 ```
 
-### Run Backend
+---
+
+# 🚀 Run Backend
 
 ```bash
 cd backend
@@ -225,7 +229,7 @@ http://127.0.0.1:8000
 
 ---
 
-## Frontend Setup
+# 🎨 Frontend Setup
 
 ```bash
 cd frontend
@@ -239,7 +243,9 @@ Create a `.env` file:
 VITE_API_URL=http://127.0.0.1:8000
 ```
 
-### Run Frontend
+---
+
+# 🚀 Run Frontend
 
 ```bash
 npm run dev
@@ -255,41 +261,33 @@ http://localhost:5173
 
 # 🔄 How It Works
 
-### Step 1
+### 1️⃣ Repository Submission
 
-User enters a GitHub repository URL.
+User provides a GitHub repository URL.
 
-### Step 2
+### 2️⃣ Repository Processing
 
-Reporyx-AI clones the repository locally.
+Reporyx-AI clones the repository and extracts source files.
 
-### Step 3
+### 3️⃣ Code Chunking
 
-Repository files are extracted and analyzed.
+Large source files are split into meaningful chunks.
 
-### Step 4
-
-Source code is chunked into semantic sections.
-
-### Step 5
+### 4️⃣ Embedding Generation
 
 Embeddings are generated using Sentence Transformers.
 
-### Step 6
+### 5️⃣ Vector Storage
 
-Embeddings are stored in ChromaDB.
+Embeddings are stored inside ChromaDB.
 
-### Step 7
+### 6️⃣ Semantic Retrieval
 
-User asks repository-related questions.
+Relevant code chunks are retrieved based on user queries.
 
-### Step 8
+### 7️⃣ AI Response Generation
 
-Relevant code chunks are retrieved using semantic search.
-
-### Step 9
-
-Groq LLM generates repository-aware answers.
+Groq Llama generates repository-aware responses using retrieved context.
 
 ---
 
@@ -298,63 +296,66 @@ Groq LLM generates repository-aware answers.
 ```text
 What is the architecture of this repository?
 
-Explain the authentication flow.
+Which technologies are used?
 
-What is the entry point of this project?
+Explain this project to a beginner.
 
-Trace the login workflow.
+How does the backend work?
 
-Which files are responsible for API routing?
+Where is authentication implemented?
+
+What are the main files in this project?
+
+Summarize this repository.
 
 How does the frontend communicate with the backend?
-
-Generate an onboarding plan for a new developer.
-
-Explain the dependency graph.
-
-What technologies are used in this repository?
 ```
 
 ---
 
-# 🌟 Unique Features
+# 🌟 Key Highlights
 
 ✅ Repository-Aware AI Assistant
 
-✅ Semantic Code Retrieval
+✅ Semantic Code Search
 
-✅ Architecture Understanding
-
-✅ Dependency Graph Generation
-
-✅ Flow Tracing Engine
-
-✅ Entry Point Detection
-
-✅ Developer Onboarding Guidance
+✅ Retrieval-Augmented Generation (RAG)
 
 ✅ Multi-File Context Retrieval
 
-✅ Source-Aware Responses
+✅ ChromaDB Vector Search
+
+✅ Technology Detection
+
+✅ Repository Summary Generation
+
+✅ Developer Onboarding Support
+
+✅ Source-Grounded AI Responses
 
 ---
 
-# 🚀 Future Improvements
+# 🚀 Future Scope
 
-* GraphRAG Integration
-* Neo4j Knowledge Graph
-* Interactive Dependency Visualization
-* Multi-Repository Analysis
-* Pull Request Understanding
-* Code Change Impact Analysis
-* Automated Documentation Generation
-* Team Onboarding Assistant
+- GraphRAG Integration
+- Repository Visualization
+- Multi-Repository Analysis
+- Automated Documentation Generation
+- Pull Request Understanding
+- Code Change Impact Analysis
+- Team Knowledge Assistant
+
+---
+
+# 🎯 Project Goal
+
+Reporyx-AI aims to reduce the time required to understand unfamiliar codebases by combining repository analysis, semantic retrieval, and AI-powered code understanding into a single platform.
 
 ---
 
 # 👨‍💻 Developer
 
-**Arambh Tiwari**
+### Arambh Tiwari
 
 B.Tech CSE | MERN Stack Developer | AI Enthusiast
 
@@ -364,6 +365,6 @@ GitHub: https://github.com/arambh8960
 
 <div align="center">
 
-⭐ If you found this project useful, consider giving it a star! ⭐
+⭐ If you found this project useful, please consider giving it a star! ⭐
 
 </div>
