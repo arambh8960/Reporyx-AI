@@ -1,295 +1,369 @@
-# Reporyx-AI
+<div align="center">
 
-AI-Powered Developer Onboarding Assistant for GitHub Repositories
+# 🚀 Reporyx-AI
 
-## Overview
+### AI-Powered Developer Onboarding Assistant for GitHub Repositories
 
-Reporyx-AI is an intelligent developer onboarding assistant that helps you understand any GitHub repository quickly and efficiently. Whether you're joining a new team, exploring open-source projects, or analyzing codebases, Reporyx-AI provides AI-powered insights to accelerate your understanding.
+[![FastAPI](https://img.shields.io/badge/Backend-FastAPI-009688?style=for-the-badge)]()
+[![React](https://img.shields.io/badge/Frontend-React-61DAFB?style=for-the-badge)]()
+[![MongoDB](https://img.shields.io/badge/Database-MongoDB-10b981?style=for-the-badge)]()
+[![ChromaDB](https://img.shields.io/badge/Vector%20DB-ChromaDB-f59e0b?style=for-the-badge)]()
+[![Groq AI](https://img.shields.io/badge/AI-Groq%20%2B%20Llama-6366f1?style=for-the-badge)]()
+[![License](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge)](LICENSE)
 
-## Tech Stack
+**Reporyx-AI** is an AI-powered developer onboarding platform that helps developers understand any GitHub repository instantly using Retrieval-Augmented Generation (RAG), semantic code search, architecture analysis, dependency tracing, and intelligent repository Q&A.
 
-### Frontend
-- **React.js** - Modern UI library
-- **Vite** - Fast build tool and dev server
-- **Tailwind CSS** - Utility-first CSS framework
-- **React Router DOM** - Client-side routing
-- **Axios** - HTTP client
-- **React Icons** - Icon library
+Instead of manually reading hundreds of files, developers can simply provide a GitHub repository URL and ask questions in natural language.
 
-### Backend
-- **FastAPI** - Modern, fast web framework for building APIs
-- **Motor** - Async MongoDB driver
-- **Python-JOSE** - JWT token handling
-- **Passlib** - Password hashing
-- **Pydantic** - Data validation
+[⚙️ Features](#-features)  ·  [🛠️ Installation](#️-installation)  ·  [🏗️ Architecture](#️-system-architecture)  ·  [📂 Project Structure](#-project-structure)
 
-### Database
-- **MongoDB** - NoSQL database for user data
+</div>
 
-## Project Structure
+---
 
+# ✨ What Makes Reporyx-AI Different?
+
+Most AI code assistants answer questions from a few retrieved files.
+
+Reporyx-AI goes beyond simple repository chat by understanding the repository structure, tracing execution flow, identifying entry points, analyzing dependencies, and generating onboarding guidance for developers.
+
+Ask questions like:
+
+* "What is the architecture of this repository?"
+* "Where does authentication start?"
+* "Explain the login flow step by step."
+* "Which files are responsible for API routing?"
+* "What is the entry point of this project?"
+* "Generate an onboarding plan for new developers."
+
+And receive repository-aware answers backed by actual source code.
+
+---
+
+# 🚀 Features
+
+## 📂 Repository Analysis
+
+* Analyze any public GitHub repository
+* Automatic repository cloning
+* Technology stack detection
+* Repository structure analysis
+* README extraction
+* AI-generated repository summary
+* File and folder statistics
+
+## 🧠 AI-Powered Repository Understanding
+
+* Natural language repository Q&A
+* Semantic code search
+* Multi-file retrieval
+* Source-aware responses
+* Intelligent code explanations
+* Context-aware code understanding
+
+## 🔍 RAG Pipeline
+
+* Automatic code chunking
+* Embedding generation
+* ChromaDB vector storage
+* Semantic similarity search
+* Repository-specific retrieval
+* Context aggregation
+
+## 🏗️ Architecture Analysis
+
+* Project structure understanding
+* Folder hierarchy analysis
+* Architecture overview generation
+* Layer detection
+* Repository navigation support
+
+## 🔗 Dependency & Flow Analysis
+
+* Dependency graph generation
+* Import relationship mapping
+* Entry point detection
+* Request flow tracing
+* Function call tracing
+* Component interaction understanding
+
+## 🎯 Developer Onboarding
+
+* Smart onboarding guidance
+* Repository walkthrough
+* Key file identification
+* Learning path generation
+* Faster developer ramp-up
+
+---
+
+# 🛠️ Tech Stack
+
+| Layer                 | Technology                          |
+| --------------------- | ----------------------------------- |
+| Frontend              | React.js, Vite, Tailwind CSS, Axios |
+| Backend               | FastAPI, Python                     |
+| Database              | MongoDB Atlas                       |
+| Vector Database       | ChromaDB                            |
+| LLM                   | Groq API (Llama 3.3 70B)            |
+| Embeddings            | Sentence Transformers               |
+| Repository Processing | GitPython                           |
+| Graph Analysis        | NetworkX                            |
+
+---
+
+# 🏗️ System Architecture
+
+```text
+User
+ │
+ ▼
+React Frontend
+ │
+ ▼
+FastAPI Backend
+ │
+ ├── Repository Analyzer
+ ├── Code Reader
+ ├── Chunking Service
+ ├── Embedding Service
+ ├── ChromaDB Vector Store
+ ├── Retrieval Engine
+ ├── Architecture Analyzer
+ ├── Dependency Graph Builder
+ └── Flow Tracing Engine
+          │
+          ▼
+      Groq LLM
+          │
+          ▼
+     AI Response
 ```
-CodeGraph-AI/
-├── backend/              # FastAPI backend
-│   ├── routes/          # API route handlers
-│   ├── services/        # Business logic
-│   ├── database/        # Database configuration
-│   ├── schemas/         # Pydantic schemas
-│   ├── models/          # Database models
-│   ├── utils/           # Utility functions
-│   ├── main.py          # FastAPI application
-│   ├── requirements.txt # Python dependencies
-│   └── .env.example     # Environment variables template
+
+---
+
+# 📂 Project Structure
+
+```text
+Reporyx-AI
 │
-├── frontend/            # React frontend
-│   ├── src/
-│   │   ├── components/  # Reusable React components
-│   │   ├── pages/       # Page components
-│   │   ├── services/    # API services
-│   │   ├── context/     # React Context
-│   │   ├── App.jsx      # Main App component
-│   │   └── main.jsx     # Entry point
-│   ├── package.json     # Node dependencies
-│   └── .env.example     # Environment variables template
+├── backend
+│   ├── database
+│   ├── models
+│   ├── routes
+│   ├── services
+│   ├── repositories
+│   ├── chroma_db
+│   ├── utils
+│   └── main.py
 │
-└── README.md            # This file
+├── frontend
+│   ├── public
+│   ├── src
+│   │   ├── components
+│   │   ├── pages
+│   │   ├── services
+│   │   └── assets
+│   └── package.json
+│
+└── README.md
 ```
 
-## Prerequisites
+---
 
-- **Node.js** (v18 or higher)
-- **Python** (v3.9 or higher)
-- **MongoDB** (v4.4 or higher)
-- **npm** or **yarn**
-
-## Installation
-
-### 1. Clone the Repository
+# ⚙️ Installation
 
 ```bash
-git clone <repository-url>
-cd CodeGraph-AI
+git clone https://github.com/arambh8960/Reporyx-AI.git
+
+cd Reporyx-AI
 ```
 
-### 2. MongoDB Setup
+---
 
-Install and start MongoDB:
-
-**Mac:**
-```bash
-brew install mongodb-community
-brew services start mongodb-community
-```
-
-**Ubuntu:**
-```bash
-sudo apt-get install mongodb
-sudo systemctl start mongod
-```
-
-**Windows:**
-Download and install from [MongoDB官网](https://www.mongodb.com/try/download/community)
-
-Verify MongoDB is running:
-```bash
-mongosh
-```
-
-### 3. Backend Setup
-
-Navigate to the backend directory:
+## Backend Setup
 
 ```bash
 cd backend
-```
 
-Create a virtual environment:
+python3 -m venv venv
 
-```bash
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-```
+source venv/bin/activate
 
-Install dependencies:
-
-```bash
 pip install -r requirements.txt
 ```
 
-Set up environment variables:
+Create a `.env` file inside the backend folder:
+
+```env
+MONGODB_URL=your_mongodb_url
+
+GROQ_API_KEY=your_groq_api_key
+
+JWT_SECRET_KEY=your_secret_key
+
+JWT_ALGORITHM=HS256
+
+JWT_EXPIRE_MINUTES=60
+```
+
+### Run Backend
 
 ```bash
-cp .env.example .env
+cd backend
+
+source venv/bin/activate
+
+./venv/bin/python -m uvicorn main:app --reload
 ```
 
-Edit `.env` with your configuration:
-```env
-MONGODB_URL=mongodb://localhost:27017
-JWT_SECRET_KEY=your-secret-key-change-this-in-production
-JWT_ALGORITHM=HS256
-JWT_EXPIRE_MINUTES=30
+Backend runs on:
+
+```text
+http://127.0.0.1:8000
 ```
 
-### 4. Frontend Setup
+---
 
-Navigate to the frontend directory:
+## Frontend Setup
 
 ```bash
 cd frontend
-```
 
-Install dependencies:
-
-```bash
 npm install
 ```
 
-Set up environment variables:
+Create a `.env` file:
 
-```bash
-cp .env.example .env
-```
-
-Edit `.env` with your configuration:
 ```env
-VITE_API_BASE_URL=http://localhost:8000
+VITE_API_URL=http://127.0.0.1:8000
 ```
 
-## Running the Application
-
-### Start the Backend
-
-In the `backend` directory:
-
-```bash
-source venv/bin/activate  # Activate virtual environment
-uvicorn main:app --reload --host 0.0.0.0 --port 8000
-```
-
-The backend API will be available at: `http://localhost:8000`
-
-API Documentation:
-- **Swagger UI**: `http://localhost:8000/docs`
-- **ReDoc**: `http://localhost:8000/redoc`
-
-### Start the Frontend
-
-In a new terminal, navigate to the `frontend` directory:
+### Run Frontend
 
 ```bash
 npm run dev
 ```
 
-The frontend application will be available at: `http://localhost:3000`
+Frontend runs on:
 
-## Authentication Flow
+```text
+http://localhost:5173
+```
 
-### Signup
-1. Navigate to the signup page
-2. Fill in name, email, and password
-3. Password must be at least 8 characters
-4. Upon success, redirect to login page
+---
 
-### Login
-1. Navigate to the login page
-2. Enter email and password
-3. JWT token is generated and stored in localStorage
-4. Redirect to dashboard
+# 🔄 How It Works
 
-### Protected Routes
-- JWT token is automatically attached to all API requests
-- Protected routes require authentication
-- Auto-redirect to login if not authenticated
-- Auto-logout on 401 errors
+### Step 1
 
-## Features (Day 1)
+User enters a GitHub repository URL.
 
-### Implemented
-- ✅ User authentication (signup/login)
-- ✅ JWT token management
-- ✅ Protected routes
-- ✅ MongoDB integration
-- ✅ Modern glassmorphism UI
-- ✅ Responsive design
-- ✅ Health check endpoint
-- ✅ Auto-login after refresh
+### Step 2
 
-### Coming Soon (Future Days)
-- 🔲 GitHub Repository Ingestion
-- 🔲 ChromaDB Integration
-- 🔲 LangChain Integration
-- 🔲 Embeddings & RAG
-- 🔲 Groq Integration
-- 🔲 Repository Summary
-- 🔲 Tech Stack Detection
-- 🔲 Repository Chat
+Reporyx-AI clones the repository locally.
 
-## API Endpoints
+### Step 3
 
-### Health
-- `GET /api/health` - Health check endpoint
+Repository files are extracted and analyzed.
 
-### Authentication
-- `POST /api/auth/signup` - User registration
-- `POST /api/auth/login` - User login
+### Step 4
 
-## Environment Variables
+Source code is chunked into semantic sections.
 
-### Backend
-- `MONGODB_URL` - MongoDB connection string
-- `JWT_SECRET_KEY` - Secret key for JWT (use strong random string in production)
-- `JWT_ALGORITHM` - JWT algorithm (default: HS256)
-- `JWT_EXPIRE_MINUTES` - JWT token expiration time in minutes
+### Step 5
 
-### Frontend
-- `VITE_API_BASE_URL` - Backend API URL (default: http://localhost:8000)
+Embeddings are generated using Sentence Transformers.
 
-## Development
+### Step 6
 
-### Backend Development
+Embeddings are stored in ChromaDB.
 
-The backend uses async/await patterns with Motor for MongoDB operations. All database operations are non-blocking.
+### Step 7
 
-### Frontend Development
+User asks repository-related questions.
 
-The frontend uses Vite for fast development with hot module replacement. Tailwind CSS is used for styling with custom glassmorphism utilities.
+### Step 8
 
-## Security Notes
+Relevant code chunks are retrieved using semantic search.
 
-- Never commit `.env` files to version control
-- Use strong JWT secret keys in production
-- Implement rate limiting for production
-- Use HTTPS in production
-- Validate all input data
-- Passwords are hashed using bcrypt
+### Step 9
 
-## Troubleshooting
+Groq LLM generates repository-aware answers.
 
-### MongoDB Connection Issues
-- Ensure MongoDB is running: `mongosh`
-- Check MongoDB URL in `.env`
-- Verify MongoDB is accessible on the specified port
+---
 
-### Backend Issues
-- Ensure virtual environment is activated
-- Check all dependencies are installed
-- Verify environment variables are set correctly
-- Check MongoDB connection
+# 🎯 Example Questions
 
-### Frontend Issues
-- Ensure all dependencies are installed: `npm install`
-- Verify `VITE_API_URL` is set correctly
-- Check that backend is running on the specified port
-- Clear browser cache and localStorage if needed
+```text
+What is the architecture of this repository?
 
-## License
+Explain the authentication flow.
 
-This project is licensed under the MIT License.
+What is the entry point of this project?
 
-## Contributing
+Trace the login workflow.
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+Which files are responsible for API routing?
 
-## Support
+How does the frontend communicate with the backend?
 
-For issues and questions, please open an issue on the repository.
+Generate an onboarding plan for a new developer.
+
+Explain the dependency graph.
+
+What technologies are used in this repository?
+```
+
+---
+
+# 🌟 Unique Features
+
+✅ Repository-Aware AI Assistant
+
+✅ Semantic Code Retrieval
+
+✅ Architecture Understanding
+
+✅ Dependency Graph Generation
+
+✅ Flow Tracing Engine
+
+✅ Entry Point Detection
+
+✅ Developer Onboarding Guidance
+
+✅ Multi-File Context Retrieval
+
+✅ Source-Aware Responses
+
+---
+
+# 🚀 Future Improvements
+
+* GraphRAG Integration
+* Neo4j Knowledge Graph
+* Interactive Dependency Visualization
+* Multi-Repository Analysis
+* Pull Request Understanding
+* Code Change Impact Analysis
+* Automated Documentation Generation
+* Team Onboarding Assistant
+
+---
+
+# 👨‍💻 Developer
+
+**Arambh Tiwari**
+
+B.Tech CSE | MERN Stack Developer | AI Enthusiast
+
+GitHub: https://github.com/arambh8960
+
+---
+
+<div align="center">
+
+⭐ If you found this project useful, consider giving it a star! ⭐
+
+</div>
