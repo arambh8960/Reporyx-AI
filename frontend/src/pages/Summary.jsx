@@ -2,72 +2,6 @@ import React from 'react'
 import ReactMarkdown from 'react-markdown'
 import { useRepository } from '../context/RepositoryContext'
 
-const StyledHeading = ({ children }) => (
-  <h3 className="text-xl md:text-[1.25rem] font-bold mt-6 mb-3 bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
-    {children}
-  </h3>
-)
-
-const HEADINGS = [
-  'PROJECT OVERVIEW',
-  'TECH STACK',
-  'CORE FEATURES',
-  'HOW IT WORKS',
-  'REPOSITORY STRUCTURE INSIGHTS',
-  'DEVELOPER ONBOARDING GUIDE',
-  'POTENTIAL USE CASES',
-  'COMPLEXITY ASSESSMENT',
-]
-
-function renderSummaryBlocks(text) {
-  if (!text) return []
-  const lines = text.split(/\r?\n/)
-  const blocks = []
-  let buffer = []
-  let skippingStructure = false
-
-  function flushBuffer() {
-    if (buffer.length === 0) return
-    const joined = buffer.join('\n').trim()
-    if (joined) blocks.push({ type: 'paragraph', content: joined })
-    buffer = []
-  }
-
-  for (let rawLine of lines) {
-    const line = rawLine.replace(/\t/g, ' ').replace(/\s+$/g, '')
-    const trimmed = line.trim()
-
-    const isHeadingLine = trimmed.startsWith('# ')
-    const headingText = isHeadingLine ? trimmed.slice(2).trim().toUpperCase() : null
-
-    if (isHeadingLine && HEADINGS.includes(headingText)) {
-      // If this is the repository structure heading, enter skip mode
-      if (headingText === 'REPOSITORY STRUCTURE INSIGHTS') {
-        flushBuffer()
-        skippingStructure = true
-        continue
-      }
-
-      // If we were skipping structure and now hit a new heading, stop skipping
-      if (skippingStructure) skippingStructure = false
-
-      flushBuffer()
-      blocks.push({ type: 'heading', content: headingText })
-      continue
-    }
-
-    if (skippingStructure) {
-      // skip all lines until the next recognized heading
-      continue
-    }
-
-    // normal text line - collect
-    buffer.push(line)
-  }
-
-  flushBuffer()
-  return blocks
-}
 const Summary = () => {
   const { activeRepo } = useRepository()
   const analysis = activeRepo || JSON.parse(localStorage.getItem('lastAnalysis') || 'null')
@@ -76,38 +10,95 @@ const Summary = () => {
     return (
       <div className="p-8">
         <h2 className="text-xl font-semibold text-white mb-4">Repository Summary</h2>
-        <div className="text-white">No repository analyzed yet. Please run analysis from Dashboard.</div>
+        <div className="text-slate-400">No repository analyzed yet. Please run analysis from Dashboard.</div>
       </div>
     )
   }
 
   return (
-    <div className="p-8">
-      <h2 className="text-2xl font-semibold text-white mb-6">Repository Summary — {analysis.repo_name}</h2>
+    <div className="p-8 max-w-5xl">
+      <div className="flex items-center justify-between mb-6">
+        <div>
+          <h2 className="text-2xl font-bold text-white tracking-tight">
+            Repository Summary
+          </h2>
+          <p className="text-sm text-slate-400 mt-1">
+            Intelligence overview for <span className="text-blue-400 font-mono font-medium">{analysis.repo_name}</span>
+          </p>
+        </div>
+      </div>
 
-      <div className="bg-[#111827] border border-[#1F2937] rounded-xl p-6">
+      <div className="bg-[#111827] border border-[#1F2937] rounded-xl p-6 md:p-8 shadow-xl">
         {analysis.summary ? (
-          (() => {
-            const blocks = renderSummaryBlocks(analysis.summary)
-            return blocks.map((b, idx) => {
-              if (b.type === 'heading') {
-                return (
-                  <div key={idx}>
-                    <h3 className="text-xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent mt-6 mb-3 uppercase">
-                      {b.content}
-                    </h3>
-                  </div>
-                )
-              }
-              return (
-                <div key={idx} className="mt-2 text-white/70">
-                  <ReactMarkdown>{b.content}</ReactMarkdown>
-                </div>
+          <ReactMarkdown
+            components={{
+              // Main title (# Developer Onboarding Report)
+              h1: ({ children }) => (
+                <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-500 bg-clip-text text-transparent pb-4 border-b border-slate-800 mb-6">
+                  {children}
+                </h1>
+              ),
+              // Section headings (## 1. Project Overview, etc.)
+              h2: ({ children }) => (
+                <h2 className="text-lg font-bold text-slate-100 mt-8 mb-3 pb-2 border-b border-slate-800/80 flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-blue-500 inline-block shadow-sm shadow-blue-500/50"></span>
+                  {children}
+                </h2>
+              ),
+              // Subheadings (### Sub-section)
+              h3: ({ children }) => (
+                <h3 className="text-sm font-semibold uppercase tracking-wider text-indigo-400 mt-5 mb-2">
+                  {children}
+                </h3>
+              ),
+              // Paragraphs
+              p: ({ children }) => (
+                <p className="text-slate-300 text-sm leading-relaxed mb-3">
+                  {children}
+                </p>
+              ),
+              // Unordered lists
+              ul: ({ children }) => (
+                <ul className="space-y-2 mb-4 text-sm text-slate-300 list-disc list-outside ml-4">
+                  {children}
+                </ul>
+              ),
+              // Ordered lists (Execution workflow)
+              ol: ({ children }) => (
+                <ol className="space-y-2.5 mb-4 text-sm text-slate-300 list-decimal list-outside ml-5">
+                  {children}
+                </ol>
+              ),
+              // List item
+              li: ({ children }) => (
+                <li className="leading-relaxed marker:text-slate-500">
+                  {children}
+                </li>
+              ),
+              // Strong / Bold labels
+              strong: ({ children }) => (
+                <strong className="font-semibold text-slate-100">
+                  {children}
+                </strong>
+              ),
+              // File paths & commands (`app.py`, `src/predict.py`)
+              code: ({ children }) => (
+                <code className="text-cyan-300 bg-slate-900 px-1.5 py-0.5 rounded text-[13px] font-mono border border-slate-700/60 shadow-inner">
+                  {children}
+                </code>
+              ),
+              // Quotes or Notes
+              blockquote: ({ children }) => (
+                <blockquote className="border-l-4 border-indigo-500 bg-slate-800/40 px-4 py-2 my-4 rounded-r text-sm text-slate-300 italic">
+                  {children}
+                </blockquote>
               )
-            })
-          })()
+            }}
+          >
+            {analysis.summary}
+          </ReactMarkdown>
         ) : (
-          <div className="mt-2 text-white/70">No summary available.</div>
+          <div className="text-slate-400">No summary available.</div>
         )}
       </div>
     </div>
